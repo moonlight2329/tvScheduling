@@ -27,7 +27,7 @@ def read_csv_to_dict(file_path):
     return program_ratings
 
 # Path to the CSV file (assuming it's in the same directory as the Streamlit app)
-file_path = 'program_ratings.csv'
+file_path = 'https://raw.githubusercontent.com/moonlight2329/tvScheduling/refs/heads/main/program_ratings.csv'
 
 # Get the data in the required format
 program_ratings_dict = read_csv_to_dict(file_path)
