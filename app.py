@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import random
 from typing import List, Tuple, Dict
+from pathlib import Path  # <-- added
 
 # =========================
 # Data loading
@@ -132,17 +133,22 @@ st.set_page_config(page_title="GA TV Scheduling", page_icon="🧬", layout="wide
 st.title("🧬 Genetic Algorithm — TV Scheduling")
 
 st.markdown("""
-Upload **program_ratings.csv** (or keep the default path) and set GA parameters.
-This app will run **three trials** with your chosen parameter pairs and display each resulting schedule as a table.
+Keep **program_ratings.csv** in the **same folder** as `app.py` (GitHub repo root).  
+Uploading is optional — the app will auto-load the local CSV if present.
 """)
 
-# File input (optional). If none uploaded, fallback to local path.
-uploaded = st.file_uploader("Upload program_ratings.csv", type=["csv"])
+# ---------- Option A: local CSV first, upload optional ----------
+uploaded = st.file_uploader("Upload program_ratings.csv (optional)", type=["csv"])
+default_csv = Path(__file__).parent / "program_ratings.csv"
+
 if uploaded is not None:
     df, programs, hour_cols = load_ratings(uploaded)
+elif default_csv.exists():
+    df, programs, hour_cols = load_ratings(str(default_csv))
 else:
-    # Default filename expected in the repo
-    df, programs, hour_cols = load_ratings("program_ratings.csv")
+    st.error("No CSV found. Upload a file or add program_ratings.csv to the same folder as app.py.")
+    st.stop()
+# ---------------------------------------------------------------
 
 st.subheader("Parameters")
 col_a, col_b = st.columns(2)
@@ -194,4 +200,4 @@ if st.button("Run All 3 Trials 🚀", use_container_width=True):
         st.caption(f"CO_R = {co:.2f}, MUT_R = {mu:.2f}, GEN = {gen}, POP = {pop}, ELIT = {elit}, TOURN = {tourn}")
         st.markdown("---")
 
-st.info("Tip: You can **modify the CSV ratings** (e.g., scale evening hours, tweak movie ratings at night) and re-upload to observe changes.")
+st.info("Tip: Keep the CSV in the repo so it auto-loads on Streamlit Cloud. Upload only if you want to test another file.")
