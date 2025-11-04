@@ -136,7 +136,7 @@ st.markdown("""
 Tv Scheduling using Genetic Algorithm.
 """)
 
-# ---------- Option A: local CSV first, upload optional ----------
+# ---------- local CSV  ----------
 default_csv = Path(__file__).parent / "program_ratings.csv"
 
 if default_csv.exists():
