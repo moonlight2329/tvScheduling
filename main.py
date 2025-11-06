@@ -145,13 +145,13 @@ with col_a:
     mu1 = st.slider("MUT_R (Trial 1)", 0.01, 0.05, 0.04, 0.01)
 
     st.markdown("**Trial 2**")
-    co2 = st.slider("CO_R (Trial 2)", 0.0, 0.95, 0.20, 0.01)
-    mu2 = st.slider("MUT_R (Trial 2)", 0.01, 0.05, 0.04, 0.01)
+    co2 = st.slider("CO_R (Trial 2)", 0.0, 0.95, 0.50, 0.01)
+    mu2 = st.slider("MUT_R (Trial 2)", 0.01, 0.05, 0.05, 0.01)
 
 with col_b:
     st.markdown("**Trial 3**")
-    co3 = st.slider("CO_R (Trial 3)", 0.0, 0.95, 0.30, 0.01)
-    mu3 = st.slider("MUT_R (Trial 3)", 0.01, 0.05, 0.05, 0.01)
+    co3 = st.slider("CO_R (Trial 3)", 0.0, 0.95, 0.80, 0.01)
+    mu3 = st.slider("MUT_R (Trial 3)", 0.01, 0.05, 0.02, 0.01)
 
 st.markdown("---")
 st.subheader("Global GA Settings")
