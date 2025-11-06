@@ -65,6 +65,9 @@ def run_ga(
     mutation_rate: float = 0.2,
 ) -> Dict:
 
+    # ✅ FIX: Make results deterministic
+    random.seed(123)
+
     num_hours = len(hour_cols)
     population = [random_schedule(programs, num_hours) for _ in range(pop_size)]
     best = max(population, key=lambda s: fitness(s, df, hour_cols))
@@ -103,7 +106,6 @@ def run_ga(
         "best_schedule": best,
         "best_score": best_score,
     }
-
 
 def render_schedule_table(schedule, df, hour_cols):
     program_to_row = {p: i for i, p in enumerate(df["Type of Program"])}
