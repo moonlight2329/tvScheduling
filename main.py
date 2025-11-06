@@ -165,8 +165,8 @@ elit = st.number_input("Elitism Size", 0, 10, 2, 1)
 tourn = st.number_input("Tournament Size (k)", 2, 10, 3, 1)
 
 
-# ========== Auto-run Trials (No button) ==========
-st.markdown("## Results (Auto-Run)")
+# ========== Auto-run Trials ==========
+st.markdown("## Results of Trial")
 
 trials = [
     ("Trial 1", co1, mu1),
