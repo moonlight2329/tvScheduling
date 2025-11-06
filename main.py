@@ -134,7 +134,7 @@ else:
     st.stop()
 
 # ======== Parameters ========
-st.subheader("Parameters")
+st.subheader("GA Parameters")
 col_a, col_b = st.columns(2)
 
 with col_a:
@@ -157,7 +157,7 @@ gen = st.number_input("Generations (GEN)", 10, 2000, 100, 10)
 pop = st.number_input("Population Size (POP)", 10, 500, 50, 10)
 
 # ========== Auto-run Trials ==========
-st.markdown("## Results (Auto-Run)")
+st.markdown("## Results of the trial")
 
 trials = [
     ("Trial 1", co1, mu1),
