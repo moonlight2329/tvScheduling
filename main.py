@@ -153,8 +153,8 @@ with col_b:
 
 st.markdown("---")
 st.subheader("Global GA Settings")
-gen = st.number_input("Generations (GEN)",10,2000, 100, 10)
-pop = st.number_input("Population Size (POP)",10, 500, 50, 10)
+gen = int(st.text_input("Generations (GEN)", "100"))
+pop = int(st.text_input("Population Size (POP)", "50"))
 
 # ========== Auto-run Trials ==========
 st.markdown("## Results of the trial")
