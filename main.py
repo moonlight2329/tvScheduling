@@ -144,17 +144,17 @@ col_a, col_b = st.columns(2)
 
 with col_a:
     st.markdown("**Trial 1**")
-    co1 = st.slider("CO_R (Trial 1)", 0.0, 0.95, 0.80, 0.01)
-    mu1 = st.slider("MUT_R (Trial 1)", 0.01, 0.05, 0.02, 0.01)
+    co1 = st.slider("CO_R (Trial 1)", 0.0, 0.95, 0.10, 0.01)
+    mu1 = st.slider("MUT_R (Trial 1)", 0.01, 0.05, 0.04, 0.01)
 
     st.markdown("**Trial 2**")
-    co2 = st.slider("CO_R (Trial 2)", 0.0, 0.95, 0.70, 0.01)
-    mu2 = st.slider("MUT_R (Trial 2)", 0.01, 0.05, 0.03, 0.01)
+    co2 = st.slider("CO_R (Trial 2)", 0.0, 0.95, 0.20, 0.01)
+    mu2 = st.slider("MUT_R (Trial 2)", 0.01, 0.05, 0.04, 0.01)
 
 with col_b:
     st.markdown("**Trial 3**")
-    co3 = st.slider("CO_R (Trial 3)", 0.0, 0.95, 0.60, 0.01)
-    mu3 = st.slider("MUT_R (Trial 3)", 0.01, 0.05, 0.04, 0.01)
+    co3 = st.slider("CO_R (Trial 3)", 0.0, 0.95, 0.30, 0.01)
+    mu3 = st.slider("MUT_R (Trial 3)", 0.01, 0.05, 0.05, 0.01)
 
 
 st.markdown("---")
