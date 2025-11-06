@@ -39,19 +39,20 @@ def random_schedule(programs: List[str], num_hours: int) -> List[str]:
 def single_point_crossover(p1: List[str], p2: List[str]):
     if len(p1) < 2:
         return p1[:], p2[:]
-    cut = len(p1)//2
+    cut = random.randint(1, len(p1) - 1)
     return p1[:cut] + p2[cut:], p2[:cut] + p1[cut:]
 
 
 def mutate(schedule: List[str], programs: List[str]) -> List[str]:
-    i = 0
-    schedule[i] = programs[0]
+    i = random.randrange(len(schedule))
+    schedule[i] = random.choice(programs)
     return schedule
 
 
-def deterministic_selection(pop, df, hour_cols):
-    pop_sorted = sorted(pop, key=lambda s: fitness(s, df, hour_cols), reverse=True)
-    return pop_sorted[0]
+def tournament_selection(pop, df, hour_cols, k=3):
+    candidates = random.sample(pop, k=min(k, len(pop)))
+    candidates.sort(key=lambda s: fitness(s, df, hour_cols), reverse=True)
+    return candidates[0]
 
 
 def run_ga(
@@ -64,8 +65,6 @@ def run_ga(
     mutation_rate: float = 0.2,
 ) -> Dict:
 
-    random.seed(123)
-
     num_hours = len(hour_cols)
     population = [random_schedule(programs, num_hours) for _ in range(pop_size)]
     best = max(population, key=lambda s: fitness(s, df, hour_cols))
@@ -75,8 +74,8 @@ def run_ga(
         new_pop = []
 
         while len(new_pop) < pop_size:
-            p1 = deterministic_selection(population, df, hour_cols)
-            p2 = deterministic_selection(population, df, hour_cols)
+            p1 = tournament_selection(population, df, hour_cols)
+            p2 = tournament_selection(population, df, hour_cols)
 
             if random.random() < crossover_rate:
                 c1, c2 = single_point_crossover(p1, p2)
