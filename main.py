@@ -49,7 +49,7 @@ def mutate(schedule: List[str], programs: List[str]) -> List[str]:
     return schedule
 
 
-def tournament_selection(pop: List[List[str]], df, hour_cols, k: int = 3):
+def tournament_selection(pop, df, hour_cols, k=3):
     candidates = random.sample(pop, k=min(k, len(pop)))
     candidates.sort(key=lambda s: fitness(s, df, hour_cols), reverse=True)
     return candidates[0]
@@ -63,8 +63,6 @@ def run_ga(
     pop_size: int = 50,
     crossover_rate: float = 0.8,
     mutation_rate: float = 0.2,
-    elitism: int = 2,
-    tournament_k: int = 3,
 ) -> Dict:
 
     num_hours = len(hour_cols)
@@ -74,12 +72,10 @@ def run_ga(
 
     for _ in range(generations):
         new_pop = []
-        population.sort(key=lambda s: fitness(s, df, hour_cols), reverse=True)
-        new_pop.extend(population[:elitism])
 
         while len(new_pop) < pop_size:
-            p1 = tournament_selection(population, df, hour_cols, k=tournament_k)
-            p2 = tournament_selection(population, df, hour_cols, k=tournament_k)
+            p1 = tournament_selection(population, df, hour_cols)
+            p2 = tournament_selection(population, df, hour_cols)
 
             if random.random() < crossover_rate:
                 c1, c2 = single_point_crossover(p1, p2)
@@ -123,19 +119,18 @@ def render_schedule_table(schedule, df, hour_cols):
 
 
 # =========================
-# STREAMLIT APP
+# STREAMLIT PAGE
 # =========================
 st.title("Genetic Algorithm — TV Scheduling")
-st.markdown("Tv Scheduling using Genetic Algorithm.")
+st.markdown("TV Scheduling using Genetic Algorithm.")
 
-
-# load CSV
+# Load CSV
 default_csv = Path(__file__).parent / "program_ratings.csv"
 
 if default_csv.exists():
     df, programs, hour_cols = load_ratings(str(default_csv))
 else:
-    st.error("CSV read failed.")
+    st.error("CSV not found.")
     st.stop()
 
 # ======== Parameters ========
@@ -156,17 +151,13 @@ with col_b:
     co3 = st.slider("CO_R (Trial 3)", 0.0, 0.95, 0.30, 0.01)
     mu3 = st.slider("MUT_R (Trial 3)", 0.01, 0.05, 0.05, 0.01)
 
-
 st.markdown("---")
 st.subheader("Global GA Settings")
 gen = st.number_input("Generations (GEN)", 10, 2000, 100, 10)
 pop = st.number_input("Population Size (POP)", 10, 500, 50, 10)
-elit = st.number_input("Elitism Size", 0, 10, 2, 1)
-tourn = st.number_input("Tournament Size (k)", 2, 10, 3, 1)
-
 
 # ========== Auto-run Trials ==========
-st.markdown("## Results of Trial")
+st.markdown("## Results (Auto-Run)")
 
 trials = [
     ("Trial 1", co1, mu1),
@@ -183,8 +174,6 @@ for label, co, mu in trials:
         pop_size=int(pop),
         crossover_rate=float(co),
         mutation_rate=float(mu),
-        elitism=int(elit),
-        tournament_k=int(tourn),
     )
 
     schedule = result["best_schedule"]
@@ -194,7 +183,6 @@ for label, co, mu in trials:
     st.dataframe(table, use_container_width=True)
     st.metric(label="Total Ratings (Fitness)", value=round(score, 4))
     st.caption(
-        f"CO_R = {co:.2f}, MUT_R = {mu:.2f}, GEN = {gen}, POP = {pop}, "
-        f"ELIT = {elit}, TOURN = {tourn}"
+        f"CO_R = {co:.2f}, MUT_R = {mu:.2f}, GEN = {gen}, POP = {pop}"
     )
     st.markdown("---")
