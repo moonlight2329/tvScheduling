@@ -65,7 +65,6 @@ def run_ga(
     mutation_rate: float = 0.2,
 ) -> Dict:
 
-    # ✅ FIX: Make results deterministic
     random.seed(123)
 
     num_hours = len(hour_cols)
